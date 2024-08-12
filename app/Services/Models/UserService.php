@@ -47,4 +47,9 @@ class UserService
             "currentDate" => now()->format('F j, Y'),
         ];
     }
+
+    public function authPermissions()
+    {
+        return response()->json(auth()->guard()->user()->permissions->pluck("name"));
+    }
 }

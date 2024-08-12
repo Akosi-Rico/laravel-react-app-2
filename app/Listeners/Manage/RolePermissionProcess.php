@@ -14,7 +14,7 @@ class RolePermissionProcess
             $role = SpatieRole::findById($event->role);
             if (!empty($role)) {
                 $permission = SpatiePermission::findById($event->permissionId);
-                $role->givePermissionTo([$permission]);
+                $role->givePermissionTo($permission);
             }
        }
     }

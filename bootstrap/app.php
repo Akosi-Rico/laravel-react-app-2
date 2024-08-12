@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\Access\AccountProcess;
+use App\Http\Middleware\Access\CheckPermission;
 use App\Http\Middleware\Access\GuestProcess;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -20,6 +21,17 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->appendToGroup('isoGuest', [
             GuestProcess::class,
         ]);
+
+        $middleware->alias([
+            'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
+            'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
+            'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
+        ]);
+
+        $middleware->appendToGroup('isoPermission', [
+            CheckPermission::class,
+        ]);
+
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

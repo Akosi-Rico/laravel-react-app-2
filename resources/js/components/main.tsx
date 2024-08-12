@@ -9,7 +9,6 @@ import {
     RouterProvider,
 } from "react-router-dom";
 import { PublicImagePathContext } from "./UseContext/context.ts";
-
 const router = createBrowserRouter([
     {
         path: "/user",

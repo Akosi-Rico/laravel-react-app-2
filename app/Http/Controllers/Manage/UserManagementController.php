@@ -42,4 +42,9 @@ class UserManagementController extends Controller
     {
         return $this->userService->loginAuthInfo();
     }
+
+    public function loadAuthPermissions()
+    {
+        return $this->userService->authPermissions();
+    }
 }

@@ -42,8 +42,12 @@ class User extends Authenticatable
     {
         try {
             $data = self::select("id", "name", "email", "created_at")
-                        //->where("user_id", auth()->user()->id)
-                        ->get();
+                        ->get()->map(function($item) {
+                            $item->roles = auth()->user()->roles->pluck("name")->implode(" | ");
+                            $item->permissions = auth()->user()->permissions->pluck("name")->implode(" | ");
+
+                            return $item;
+                        });
             return self::loadResponse($data, Response::HTTP_OK, new JsonOutput);
         } catch(\Throwable $th) {
             return self::loadResponse($th->getMessage(), Response::HTTP_BAD_REQUEST, new JsonOutput);
