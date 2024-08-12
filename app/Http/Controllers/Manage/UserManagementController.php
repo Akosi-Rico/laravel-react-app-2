@@ -16,11 +16,7 @@ class UserManagementController extends Controller
 
     public function index()
     {
-        $data = [
-            "logo" => asset("image/logo.png"),
-        ];
-
-        return view("module.index", compact('data'));
+        return view("module.index");
     }
 
     public function store(UserRequest $request, User $user)
@@ -41,5 +37,10 @@ class UserManagementController extends Controller
     public function generateTable()
     {
         return $this->userService->loadTable();
+    }
+
+    public function loadUserInfo()
+    {
+        return $this->userService->loginAuthInfo();
     }
 }

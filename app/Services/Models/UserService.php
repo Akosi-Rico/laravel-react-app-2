@@ -25,4 +25,26 @@ class UserService
     {
         return User::loadDataTableData();
     }
+
+    public function login(array $userData, User $user): object
+    {
+        return $user::canLogin($userData);
+    }
+
+    public function logout()
+    {
+        auth()->guard()->logout();
+
+        request()->session()->invalidate();
+
+        request()->session()->regenerateToken();
+    }
+
+    public function loginAuthInfo()
+    {
+        return [
+            "name" => auth()->guard()->user()->name,
+            "currentDate" => now()->format('F j, Y'),
+        ];
+    }
 }

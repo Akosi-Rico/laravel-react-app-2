@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
-
+use Spatie\Permission\Models\Permission as SpatiePermission;
 class Permission extends Model
 {
     use HasFactory, TaskHelper;
@@ -38,6 +38,10 @@ class Permission extends Model
             $permission->name = $request["name"];
             $permission->guard_name = self::$guard;
             $permission->save();
+
+            if (!empty($permission) && !empty($request["role"])) {
+                $permission->assignRole($request["role"]);
+            }
             
             DB::commit();            
             return self::loadResponse("Transaction Successully", Response::HTTP_OK, new JsonOutput);
@@ -59,6 +63,17 @@ class Permission extends Model
 
             $permission->name = $request["name"];
             $permission->save();
+
+            if (!empty($permission) && !empty($request["role"])) {
+                
+                $role = Role::getRoleInfo($request["role"]);
+                if ($role) {
+                    info($role);
+                }
+
+                //$role = Role::
+                $permission->assignRole($request["role"]);
+            }
             
             DB::commit();            
             return self::loadResponse("Transaction Successully", Response::HTTP_OK, new JsonOutput);

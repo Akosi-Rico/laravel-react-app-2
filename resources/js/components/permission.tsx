@@ -17,8 +17,6 @@ export default function Permission() {
     const csrfToken = (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement).getAttribute('content');
  
     const handleCurrentInfo = (data) => {
-        handleClearState();
-        setAssignRole(false);
         setId(data.id);
         setName(data.name);
     }
@@ -45,7 +43,8 @@ export default function Permission() {
         method(url, {
             payload: {
                 id: id,
-                name: name
+                name: name,
+                role: role
             },
             _token: csrfToken,
           }, {

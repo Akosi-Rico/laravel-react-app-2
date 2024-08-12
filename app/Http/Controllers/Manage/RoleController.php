@@ -17,11 +17,7 @@ class RoleController extends Controller
 
     public function index()
     {
-        $data = [
-            "logo" => asset("image/logo.png"),
-        ];
-
-        return view("module.index", compact('data'));
+        return view("module.index");
     }
 
     public function store(RoleRequest $request, Role $role)

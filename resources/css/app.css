@@ -50,6 +50,7 @@
     focus:ring-2
     focus:ring-orange-800
     focus:ring-opacity-50
+    text-center
 }
 
 .danger-button {
@@ -79,4 +80,16 @@
 
 .error-text-unknown {
     @apply text-sm font-sans text-slate-100;
+}
+
+.nav-ul {
+    @apply py-1 mx-1 mt-3 text-sm font-sans font-semibold rounded-md bg-orange-700 text-slate-50;
+}
+
+.nav-li {
+    @apply mx-2 hover:text-slate-700 hover:underline;
+}
+
+.nav-li-active {
+    @apply mx-2 text-slate-700 underline;
 }

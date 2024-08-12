@@ -91,4 +91,12 @@ class Role extends Model
     {
         return self::select("id", "name")->get();
     }
+
+    public static function getRoleInfo($id) {
+        if (empty($id)) {
+            return false;
+        }
+
+        return self::where("id", $id)->first();
+    }
 }

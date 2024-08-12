@@ -112,4 +112,22 @@ class User extends Authenticatable
             return self::loadResponse($th->getMessage(), Response::HTTP_BAD_REQUEST, new JsonOutput);
         }
     }
+
+    public static function canLogin($request) 
+    {
+        try {
+            if (empty($request)) {
+                return false;
+            }
+
+            auth()->guard()->attempt(["email" => $request["email"], "password" => $request["password"]]);
+            if (empty(auth()->guard()->check())) {
+                throw new \Exception("Email & Password given is not registered");
+            }
+
+           return self::loadResponse("Successfully Login!", Response::HTTP_OK, new JsonOutput);
+        } catch(\Throwable $th) {
+            return self::loadResponse($th->getMessage(), Response::HTTP_BAD_REQUEST, new JsonOutput);
+        }
+    }
 }

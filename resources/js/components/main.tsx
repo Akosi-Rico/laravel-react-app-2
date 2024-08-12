@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import HomePage from "./app.tsx";
 import RolePage from "./role.tsx";
+import LoginPage from "./login.tsx";
 import PermissionPage  from "./permission.tsx";
 import {
     createBrowserRouter,
@@ -29,6 +30,13 @@ const router = createBrowserRouter([
         element:
         <PublicImagePathContext.Provider value={ publicImagePath }>
             <PermissionPage/>
+        </PublicImagePathContext.Provider>
+    },
+    {
+        path: "/login",
+        element: 
+        <PublicImagePathContext.Provider value={ publicImagePath }>
+            <LoginPage/>
         </PublicImagePathContext.Provider>
     },
 ]);
