@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Manage\RoleRequest;
 use App\Models\Role;
 use App\Services\Models\RoleService;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
@@ -38,5 +36,10 @@ class RoleController extends Controller
     public function generateTable()
     {
         return $this->roleService->loadTable();
+    }
+
+    public function generateRoles()
+    {
+        return $this->roleService->loadRole();
     }
 }

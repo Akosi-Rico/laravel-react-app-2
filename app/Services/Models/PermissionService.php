@@ -27,8 +27,13 @@ class PermissionService
         return Permission::loadDataTableData();
     }
 
-    public function loadAvailableRole(): object
+    public function loadAvailableRoles(): object
     {   
-        return Role::showAvailableRole();
+        return Role::loadRoles();
+    }
+
+    public function loadPermissions(string $roleId = null): object
+    {
+        return Permission::loadPermissions($roleId);
     }
 }

@@ -25,4 +25,9 @@ class RoleService
     {
         return Role::loadDataTableData();
     }
+
+    public function loadRole(): object
+    {
+        return Role::loadRoles();
+    }
 }

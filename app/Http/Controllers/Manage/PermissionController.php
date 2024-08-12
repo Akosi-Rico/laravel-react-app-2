@@ -5,9 +5,7 @@ namespace App\Http\Controllers\Manage;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Manage\PermissionRequest;
 use App\Models\Permission;
-use App\Models\Role;
 use App\Services\Models\PermissionService;
-use Illuminate\Http\Request;
 
 class PermissionController extends Controller
 {
@@ -40,8 +38,13 @@ class PermissionController extends Controller
         return $this->permissionService->loadTable();
     }
 
-    public function generateAvailableRole()
+    public function generateAvailableRoles()
     {
-        return $this->permissionService->loadAvailableRole();
+        return $this->permissionService->loadAvailableRoles();
+    }
+
+    public function generatePermissions()
+    {
+        return $this->permissionService->loadPermissions(request()->payload["roleId"]);
     }
 }

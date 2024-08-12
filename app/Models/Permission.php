@@ -8,11 +8,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
-use Spatie\Permission\Models\Permission as SpatiePermission;
+use App\Events\Manage\RolePermissionEvent;
+use Spatie\Permission\Models\Role as SpatieRole;
 class Permission extends Model
 {
     use HasFactory, TaskHelper;
-    
+
     static $guard = 'web';
 
     public static function loadDataTableData()
@@ -39,10 +40,7 @@ class Permission extends Model
             $permission->guard_name = self::$guard;
             $permission->save();
 
-            if (!empty($permission) && !empty($request["role"])) {
-                $permission->assignRole($request["role"]);
-            }
-            
+            event(new RolePermissionEvent($request["role"], $permission->id));
             DB::commit();            
             return self::loadResponse("Transaction Successully", Response::HTTP_OK, new JsonOutput);
         } catch(\Throwable $th) {
@@ -63,18 +61,8 @@ class Permission extends Model
 
             $permission->name = $request["name"];
             $permission->save();
-
-            if (!empty($permission) && !empty($request["role"])) {
-                
-                $role = Role::getRoleInfo($request["role"]);
-                if ($role) {
-                    info($role);
-                }
-
-                //$role = Role::
-                $permission->assignRole($request["role"]);
-            }
             
+            event(new RolePermissionEvent($request["role"], $permission->id));
             DB::commit();            
             return self::loadResponse("Transaction Successully", Response::HTTP_OK, new JsonOutput);
         } catch(\Throwable $th) {
@@ -100,6 +88,18 @@ class Permission extends Model
         } catch(\Throwable $th) {
             DB::rollback();
             return self::loadResponse($th->getMessage(), Response::HTTP_BAD_REQUEST, new JsonOutput);
+        }
+    }
+
+    public static function loadPermissions($roleId)
+    {
+        if (empty($roleId)) {
+            return (object)["id" => 0, "name" => "No Permission Available" ];
+        }
+
+        $role = SpatieRole::findById($roleId);
+        if (!empty($role)) {
+            return response()->json($role->permissions);
         }
     }
 }

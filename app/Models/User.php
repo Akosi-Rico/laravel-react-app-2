@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Events\Manage\RestrictionEvent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -63,6 +65,7 @@ class User extends Authenticatable
             $user->password = Hash::make($request['password']);
             $user->save();
             
+            event(new RestrictionEvent($user->id, $request["role"], $request["permission"]));
             DB::commit();            
             return self::loadResponse("Transaction Successully", Response::HTTP_OK, new JsonOutput);
         } catch(\Throwable $th) {
@@ -85,6 +88,7 @@ class User extends Authenticatable
             $user->email = $request["email"];
             $user->save();
             
+            event(new RestrictionEvent($user->id, $request["role"], $request["permission"]));
             DB::commit();            
             return self::loadResponse("Transaction Successully", Response::HTTP_OK, new JsonOutput);
         } catch(\Throwable $th) {

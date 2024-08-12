@@ -99,7 +99,7 @@ export default function Permission() {
                     setRoles(response.data);
                 }
             });
-        }, 2000);
+        }, 200);
         return () => clearTimeout(timeout);
     },[isAssigningRole]);
 
@@ -174,15 +174,6 @@ export default function Permission() {
                                         ))
                                     }
                                 </select>
-                                {
-                                    errors["payload.name"] && (
-                                        <div className="flex">
-                                            <span className="error-text mx-1">
-                                                {errors["payload.name"]}
-                                            </span>
-                                        </div>
-                                    )
-                                }
                             </section>
                         </div>
                     </div>

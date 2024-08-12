@@ -42,7 +42,6 @@ export default function Header() {
         const timeout = setTimeout(() => {
             Axios.get(route("user.info"))
             .then(function (response) {
-                console.log(response);
                 if (response.status == 200) {
                     setUser(u =>({...u, name: response.data.name, currentDate: response.data.currentDate}));
                 }

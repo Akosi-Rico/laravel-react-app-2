@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Manage\UserRequest;
 use App\Models\User;
 use App\Services\Models\UserService;
-use Illuminate\Http\Request;
 
 class UserManagementController extends Controller
 {

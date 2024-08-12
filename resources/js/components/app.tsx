@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "./header";
 import DataTable from "./DataTable";
 import { useRoute } from 'ziggy-js';
@@ -13,10 +13,18 @@ export default function App() {
 
     const [newUser, setNewUser] = useState(false);
     const [role, setRole] = useState("");
+    const [roles, setRoles] = useState([]);
     const [permission, setPermission] = useState("");
+    const [permissions, setPermissions] = useState([]);
     const [currentSequence, setCurrentSequence] = useState(0);
     const [unknownError, setUnknownError] = useState("");
-    const [errors, setErrors] = useState({ "payload.name": "", "payload.email": "", "payload.password": "" });
+    const [errors, setErrors] = useState({ 
+            "payload.name": "", 
+            "payload.email": "", 
+            "payload.password": "",
+            "payload.role": "",
+            "payload.permission": ""
+        });
     const csrfToken = (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement).getAttribute('content');
 
     const handleCurrentInfo = (data) => {
@@ -48,13 +56,23 @@ export default function App() {
         setName("");
         setEmail("");
         setPassword("");
+        setRole("");
+        setPermission("");
         setConfirmPassword("");
         setUnknownError("");
         setErrorDetail();
+        setPermissions([]);
     }
 
-    const setErrorDetail = (name = null, email = null, password = null) => {
-        setErrors(e => ({ ...e, "payload.name": name,  "payload.email": email, "payload.password": password  }));
+    const setErrorDetail = (name = null, email = null, password = null, role = null, permission = null) => {
+        setErrors(e => ({ ...e, 
+                "payload.name": name, 
+                "payload.email": email,
+                "payload.password": password,
+                "payload.role": role,
+                "payload.permission": permission 
+            })
+        );
     }
 
     const handleSubmit =() => {
@@ -67,7 +85,9 @@ export default function App() {
                 email: email,
                 password: password,
                 password_confirmation: confirmPassword,
-                isNewUser: newUser
+                isNewUser: newUser,
+                role: role,
+                permission: permission,
             },
             _token: csrfToken,
           }, {
@@ -88,7 +108,9 @@ export default function App() {
                     setErrorDetail(
                         error.response.data.errors["payload.name"],
                         error.response.data.errors["payload.email"],
-                        error.response.data.errors["payload.password"]);
+                        error.response.data.errors["payload.password"],
+                        error.response.data.errors["payload.role"],
+                        error.response.data.errors["payload.permission"]);
                 } else {
                     setUnknownError(error.response.data.message);
                     setErrorDetail();
@@ -112,6 +134,55 @@ export default function App() {
         setNewUser(true);
         handleClearState();
     }
+
+    const handleRole = (event) => {
+        if (!event.target.value) {
+            setPermission("");
+        }
+        setRole(event.target.value);
+        setPermissions([]);
+        handlePermissions(event.target.value);
+    }
+
+    const handlePermissions = (roleID) => {
+        if (roleID) {
+            Axios.post(route("generate.permissions"), {
+                payload: {
+                    roleId: roleID,
+                },
+                _token: csrfToken,
+              }, {
+                headers: {
+                  'Content-Type': 'application/json',
+                }
+              }
+            )
+            .then(function (response) {
+                if (response.status == 200) {
+                    setPermissions(response.data);
+                }
+            })
+            .catch(function (error) {
+                setUnknownError(error.response.data.message);
+            });
+        }
+    }
+
+    const handlePermission = (event) => {
+        setPermission(event.target.value);
+    }
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            Axios.get(route("generate.role"))
+            .then(function (response) {
+                if (response.status == 200) {
+                    setRoles(response.data);
+                }
+            });
+        }, 100);
+        return () => clearTimeout(timeout);
+    },[]);
  
     return (<>
         <Header></Header>
@@ -160,7 +231,7 @@ export default function App() {
                             }
                             </section>
                             {
-                                newUser && 
+                                newUser &&
                                 <section className="w-full mx-1 my-1">
                                     <label className="uppercase font-sans font-medium text-slate-700">PASSWORD</label>
                                     <input  
@@ -185,6 +256,31 @@ export default function App() {
                                     }
                                 </section>
                             }
+                            <section className="w-full mx-1 my-1">
+                                <label className="uppercase font-sans font-medium text-slate-700">ROLE</label>
+                                <select
+                                    className={
+                                        errors["payload.role"]
+                                            ? "option-field error-field"
+                                            : "option-field"
+                                    }  value={role} onChange={()=> handleRole(event)}>
+                                    <option value="">Select Role</option>
+                                    {
+                                        roles.map((role, index) => (
+                                            <option value={role.id} key={index}>{role.name}</option>
+                                        ))
+                                    }
+                                </select>
+                                {
+                                    errors["payload.role"] && (
+                                        <div className="flex">
+                                            <span className="error-text mx-1">
+                                                {errors["payload.role"]}
+                                            </span>
+                                        </div>
+                                    )
+                                }
+                            </section>
                         <div className="mx-1">
                             <button className="primary-button" onClick={ () => handleSubmit()}>
                                 Submit
@@ -242,6 +338,31 @@ export default function App() {
                                 }
                             </section>
                         }
+                        <section className="w-full mx-1 my-1">
+                            <label className="uppercase font-sans font-medium text-slate-700">PERMISSION</label>
+                            <select
+                                className={
+                                    errors["payload.permission"]
+                                        ? "option-field error-field"
+                                        : "option-field"
+                                }  value={permission} onChange={()=> handlePermission(event)}>
+                                <option value="">Select Permission</option>
+                                {
+                                    permissions.map((role, index) => (
+                                        <option value={role.id} key={index}>{role.name}</option>
+                                    ))
+                                }
+                            </select>
+                            {
+                                errors["payload.permission"] && (
+                                    <div className="flex">
+                                        <span className="error-text mx-1">
+                                            {errors["payload.permission"]}
+                                        </span>
+                                    </div>
+                                )
+                            }
+                        </section>
                     </div>
                 </div>
            </div>

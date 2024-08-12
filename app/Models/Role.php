@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 class Role extends Model
 {
     use HasFactory, TaskHelper;
+    
     static $guard = 'web';
 
     public static function loadDataTableData()
@@ -87,16 +88,8 @@ class Role extends Model
         }
     }
 
-    public static function showAvailableRole()
+    public static function loadRoles()
     {
         return self::select("id", "name")->get();
-    }
-
-    public static function getRoleInfo($id) {
-        if (empty($id)) {
-            return false;
-        }
-
-        return self::where("id", $id)->first();
     }
 }
