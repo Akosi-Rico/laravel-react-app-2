@@ -15,5 +15,6 @@ Steps
 - php artisan key:generate
 - php artisan config:cache
 - npm run dev
-- run seeder
+- php artisan permission:cache-reset
+- php artisan db:seed --class=PayloadSeeder
 
