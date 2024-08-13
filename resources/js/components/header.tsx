@@ -54,30 +54,30 @@ export default function Header() {
                         <h1 className="text-3xl font-sans font-bold text-slate-50">User Management System</h1>
                         <h1 className="text-sm font-sans font-bold text-slate-50">(Laravel + Tailwind + React)</h1>
                         <ul className="flex flex-row justify-start nav-ul">  
-                            <a href="/user" onClick={() => handleActiveLink()}
+                            <Link to="/user" onClick={() => handleActiveLink()}
                                 className={`${
                                     activelink == "/user"
                                         ? "nav-li nav-li-active"
                                         : "nav-li"
                                 }`}>
                                 User
-                            </a>
-                            <a href="/role" onClick={() => handleActiveLink()}
+                            </Link>
+                            <Link to="/role" onClick={() => handleActiveLink()}
                                 className={`${
                                     activelink == "/role"
                                         ? "nav-li nav-li-active"
                                         : "nav-li"
                                 }`}>
                                 Role
-                            </a>
-                            <a href="/permission" onClick={() => handleActiveLink()}
+                            </Link>
+                            <Link to="/permission" onClick={() => handleActiveLink()}
                                 className={`${
                                     activelink == "/permission"
                                         ? "nav-li nav-li-active"
                                         : "nav-li"
                                 }`}>
                                 Permission
-                            </a>
+                            </Link>
                         </ul>
                     </div>
                 </div>
