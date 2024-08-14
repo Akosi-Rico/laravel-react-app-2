@@ -4,7 +4,7 @@ namespace App\Helpers\Access;
 
 use App\Services\Models\UserService;
 
-class AuthorizationHachero
+class AuthorizationAccess
 {
     public static function loadPermission()
     {

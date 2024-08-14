@@ -41,13 +41,20 @@ class User extends Authenticatable
     public static function loadDataTableData()
     {
         try {
-            $data = self::select("id", "name", "email", "created_at")
-                        ->get()->map(function($item) {
-                            $item->roles = auth()->user()->roles->pluck("name")->implode(" | ");
-                            $item->permissions = auth()->user()->permissions->pluck("name")->implode(" | ");
-
-                            return $item;
-                        });
+            $data = self::select(
+                        "users.id", 
+                        "users.name", 
+                        "users.email", 
+                        "users.created_at",
+                        DB::raw("group_concat(distinct ' ', p.name,' ') as Permissions"),
+                        DB::raw("group_concat(distinct ' ', r.name,' ') as Roles"),
+                    )
+                    ->leftJoin("model_has_permissions as mp", "mp.model_id", "users.id")
+                    ->leftJoin("permissions as p", "p.id", "mp.permission_id")
+                    ->leftJoin("model_has_roles as mr", "mr.model_id", "users.id")
+                    ->leftJoin("roles as r", "r.id", "mr.role_id")
+                    ->groupBy("users.id")
+                    ->get();
             return self::loadResponse($data, Response::HTTP_OK, new JsonOutput);
         } catch(\Throwable $th) {
             return self::loadResponse($th->getMessage(), Response::HTTP_BAD_REQUEST, new JsonOutput);

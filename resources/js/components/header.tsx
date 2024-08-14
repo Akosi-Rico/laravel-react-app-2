@@ -52,7 +52,7 @@ export default function Header() {
                     <img src={ path +"/image/logo.png" } placeholder="Navigation Logo" className="w-28 h-28"/>
                     <div className="sm:flex sm:flex-col sm:px-2 sm:py-8">
                         <h1 className="text-3xl font-sans font-bold text-slate-50">User Management System</h1>
-                        <h1 className="text-sm font-sans font-bold text-slate-50">(Laravel + Tailwind + React)</h1>
+                        <h1 className="text-sm font-sans font-bold text-slate-50">(Laravel + Tailwind + React + React Router + Spatie Permissions)</h1>
                         <ul className="flex flex-row justify-start nav-ul">  
                             <Link to="/user" onClick={() => handleActiveLink()}
                                 className={`${

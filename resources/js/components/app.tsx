@@ -204,6 +204,31 @@ export default function App() {
                     Register New Account?
                 </button>
             </div>
+            <div className="py-1">
+                <div className="flex flex-col py-1">
+                    <div className="flex">
+                        <b className="mx-1 text-red-600">Note: </b><p className="p-0 m-0 text-center flex justify-center items-center text-sm"> (Required Permission(s))</p> 
+                    </div>
+                    <div className="flex">
+                        <p className="p-0 mx-1 text-center flex justify-center items-center text-sm"> For demo purposes, this is a simple permission process.</p> 
+                    </div>
+                    <div className="flex">
+                        <p className="p-0 mx-1 text-center flex justify-center items-center text-sm"> 
+                            In the Role Menu and Permission Menu, all configuration data will automatically
+                            used in the Role and Permission User Interface
+                        </p> 
+                    </div>
+                    <div className="flex pt-2">
+                        <b className="mx-1 text-sm">User Menu: </b><p className="p-0 m-0 text-center flex justify-center items-center text-sm underline "> (Full Access | Edit | View Only)</p> 
+                    </div>
+                    <div className="flex">
+                        <b className="mx-1 text-sm">Role Menu: </b><p className="p-0 m-0 text-center flex justify-center items-center text-sm underline"> (Full Access | Edit)</p>
+                    </div>
+                    <div className="flex">
+                        <b className="mx-1 text-sm">Permission Menu: </b><p className="p-0 m-0 text-center flex justify-center items-center text-sm underline"> (Full Access | Edit)</p>
+                    </div>
+                </div>
+            </div>
             <div className="flex py-8 px-1">
                 <div className="flex justify-end md:w-1/2 xs:w-svw">
                     <div className="flex flex-col md:w-1/2 xs:w-full xs:mx-1">

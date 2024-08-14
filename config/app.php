@@ -125,7 +125,7 @@ return [
 
 
     'aliases' => [
-        'AccessControl' => App\Helpers\Access\AuthorizationHachero::class,
+        'AccessControl' => App\Helpers\Access\AuthorizationAccess::class,
     ],
 
 ];

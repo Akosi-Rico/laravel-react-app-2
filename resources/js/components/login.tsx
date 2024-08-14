@@ -70,7 +70,25 @@ export default function LoginForm() {
                             )
                         }
                         <h1 className="text-3xl font-sans font-bold text-slate-700">User Management System</h1>
-                        <h1 className="text-sm font-sans font-bold text-slate-700">(Laravel + Tailwind + React)</h1>
+                        <h1 className="text-sm font-sans font-bold text-slate-700">(Laravel + Tailwind + React + React Router + Spatie Permissions)</h1>
+                    </div>
+                    <div className="flex justify-center items-center">
+                        <div className="flex flex-col py-1 ">
+                            <div className="flex text-center">
+                                <b className="mx-1 text-red-600">Note</b>
+                            </div>
+                            <div className="flex">
+                                <p className="p-0 mx-1 text-center flex justify-center items-center text-sm"> 
+                                    This is a basic permission process for demonstration purposes. Upon logging in, you have the ability to add new users.    
+                                </p> 
+                            </div>
+                            <div className="flex">
+                                <p className="p-0 mx-1 text-center flex justify-center items-center text-sm">Email: admin@gmail.com</p> 
+                            </div>
+                            <div className="flex">
+                                <p className="p-0 mx-1 text-center flex justify-center items-center text-sm">Password: testing</p> 
+                            </div>
+                        </div>
                     </div>
                     <div className="flex flex-col justify-start items-center py-8">
                         <section className="w-1/2 mx-24 my-1">
