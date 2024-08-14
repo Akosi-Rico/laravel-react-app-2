@@ -50,6 +50,6 @@ class UserService
 
     public function authPermissions()
     {
-        return auth()->guard()->user()->permissions->pluck("name");
+        return (auth()->check() ? auth()->guard()->user()->permissions->pluck("name") : []);
     }
 }
